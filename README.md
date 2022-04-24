@@ -1,4 +1,4 @@
-# Chat-On 🐍 : A Python-Based Chat Room
+# ChatRoom 🐍 
 ![](https://img.shields.io/apm/l/vim-mode?style=plastic)
 ![](https://img.shields.io/pypi/pyversions/Django?style=plastic)
 ![](https://img.shields.io/github/last-commit/IamLucif3r/Chat-On)
