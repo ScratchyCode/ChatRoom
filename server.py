@@ -24,7 +24,19 @@ def broadcast(message):
 def handle(client):
     while True:
         try:
-            msg = message = client.recv(1024)  
+            msg = message = client.recv(1024)
+            
+            if(not msg):
+                broadcast(f"* '{nickname}' quit.".encode())
+                print(f"'%s' disconnected." %nickname)
+                index = clients.index(client)
+                # index is used to remove client from list after getting disconnected
+                clients.remove(client)
+                nickname = nicknames[index]
+                nicknames.remove(nickname)
+                client.close
+                break
+            
             if msg.decode( ).startswith("KICK"):
                 if nicknames[clients.index(client)] == "admin":
                     name_to_kick = msg.decode( )[5:]
@@ -109,8 +121,8 @@ def main():
         clients.append(client)
         
         #print(f'Nickname of the client is {nickname}')
-        broadcast(f"* {nickname} joined the chat".encode( ))
-        client.send("* Connected to the server!".encode( ))
+        broadcast(f"* {nickname} joined the server".encode( ))
+        client.send(f"* Connected to the server!".encode( ))
         
         # handling multiple clients simultaneously
         thread = threading.Thread(target=handle,args=(client,))
