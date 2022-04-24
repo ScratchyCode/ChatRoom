@@ -21,16 +21,16 @@ In the diagram below, given the sequence of socket API calls and data flow for T
 
 ## 👉 Usage
 
-1. We will have to start our Server first.
+1. We will have to start our server first.
 ``` shell
 python server.py
 ```
-2. Run the Client file, to start the conversation. 
+2. Run the client file, to start the conversation. 
 ``` Shell
 python client.py
 ```
 <br>
-3. Now Enter a nickname, password and start your chatting. 
+3. enter a nickname, password and start your chatting. 
 
 
 ## v1.2 Updates
