@@ -50,9 +50,3 @@ This is a demo video of the Working of main project.
 ![](https://github.com/IamLucif3r/Chat-On/blob/main/assets/2021-05-22-15-10-08.gif)
 
 <hr>
-
-## Contribution
-👉 You're welcome to contribute in this project. Make a new branch, Commit your changes and send me a Pull Request. I'll merge it in the main branch ✌
-
-## Contact
-📬 Contact with me via email: [sanmol016@gmail.com](mailto:sanmol016@gmail.com)
