@@ -5,7 +5,7 @@
 ![](https://img.shields.io/github/commit-activity/w/IamLucif3r/Chat-On?style=plastic)
 
 
-This is an advanced Python-based Secure Chat room. The project is entirely based on the Socket Progamming done using Python. A server is set to the listening mode, with a specific IP Address and Port number (asked at runtime) and clients are made to connect to the server, after which they are promopted to enter a nickname and password. The messages are then broadcasted to all the clients present. 
+This is an advanced Python-based Secure Chat room. The project is entirely based on the Socket Progamming done using Python. A server is set to the listening mode, with a specific IP Address and Port number (asked at runtime) and clients are made to connect to the server, after which they are prompted to enter a nickname and password. The messages are then broadcasted to all the clients present. 
 
 ### 👉 Introduction
 
