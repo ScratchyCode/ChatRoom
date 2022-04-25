@@ -61,7 +61,7 @@ With this feature we will receive only tor connections, being able to leave the 
 ```shell
 $ torsocks python3 client.py
 ```
-and compile entries 'Host' and 'Port' with onion address and port used before in tor setup.
+and compile entries 'Host' and 'Port' with onion address and port (8080) used before in tor setup.
 
 ## Using TOR screenshot 📹
 <br>
