@@ -21,7 +21,7 @@ In the diagram below, given the sequence of socket API calls and data flow for T
 <br><br>
 <img align="center" src=https://github.com/IamLucif3r/Chat-On/blob/main/assets/Screenshot%20at%202021-05-21%2010-47-40.png height=500px>
 
-## 👉 Usage
+## 👉 Usage in clearnet
 
 1. We will have to start our server first.
 ``` shell
@@ -46,10 +46,13 @@ python client.py
 
 ## Using TOR screenshot 📹
 <br>
-Example of usage
+First start server over hidden service:
 <br><br>
 
 ![](https://github.com/ScratchyCode/ChatRoom/blob/main/screen/server.png)
+
+after try to connect clients with torsocks wrapper:
+
 ![](https://github.com/ScratchyCode/ChatRoom/blob/main/screen/client.png)
 
 <hr>
