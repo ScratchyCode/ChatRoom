@@ -55,10 +55,9 @@ $ cat /var/lib/tor/ChatRoom/hostname
 ```shell
  Bind address (clear for all interface): 127.0.0.1
 ```
-With this feature we will receive only TOR connections, being able to leave the ports of the firewall and the router closes.
+With this feature we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
 
-
-5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup, but first type:
+5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in tor setup, typing:
 ```shell
 $ torsocks python3 client.py
 ```
