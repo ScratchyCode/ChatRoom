@@ -57,10 +57,11 @@ $ cat /var/lib/tor/ChatRoom/hostname
 ```
 With this feature we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
 
-5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in tor setup, typing:
+5. Then start client.py typing:
 ```shell
 $ torsocks python3 client.py
 ```
+and compile entries 'Host' and 'Port' with onion address and port used before in tor setup.
 
 ## Using TOR screenshot 📹
 <br>
