@@ -12,22 +12,24 @@ hashTable = {}
 
 
 # broadcasting method
-def broadcast(message):
-    try:
-        for client in clients:
+def broadcast(message,myclient):
+    for client in clients:
+        # broadcast without echo for same client
+        if client == myclient:
+            continue
+        else:
             client.send(message)
-    except:
-        client.close()
 
 
 # recieving messages from client then broadcasting
 def handle(client):
+    
     while True:
         try:
             msg = message = client.recv(1024)
             
             if(not msg):
-                broadcast(f"* '{nickname}' quit.".encode())
+                broadcast(f"* '{nickname}' quit.".encode(),client)
                 print(f"'%s' disconnected." %nickname)
                 index = clients.index(client)
                 # index is used to remove client from list after getting disconnected
@@ -53,15 +55,15 @@ def handle(client):
                 else:
                     client.send("* Command refused!".encode( ))
             else:
-                broadcast(message) # as soon as message recieved, broadcast it.
+                broadcast(message,client) # as soon as message recieved, broadcast it.
         except:
             if client in clients:
                 index = clients.index(client)
                 # index is used to remove client from list after getting disconnected
                 clients.remove(client)
-                client.close
                 nickname = nicknames[index]
-                broadcast(f"* '{nickname}' left.".encode( ))
+                broadcast(f"* '{nickname}' left.".encode( ),client)
+                client.close
                 print(f"'%s' disconnected." %nickname)
                 nicknames.remove(nickname)
                 break
@@ -76,11 +78,11 @@ def main():
     while True:
         client,address = server.accept()
         
-        print(f"* Connected with {str(address)}")
+        print(f"* Connected from {str(address)}")
         
         # ask the clients for nicknames
-        client.send("NICK".encode( ))
-        nickname = client.recv(1024).decode( )
+        client.send("NICK".encode())
+        nickname = client.recv(1024).decode()
         
         # check for banned nick
         with open("bans.txt",'r') as f:
@@ -92,14 +94,14 @@ def main():
             continue
         
         # ask the passwd
-        client.send("PASS".encode( ))
-        password = client.recv(1024).decode( )
+        client.send("PASS".encode())
+        password = client.recv(1024).decode()
         
         # REGISTERATION PHASE
         # if new user, regiter in hashTable dictionary
         if nickname not in hashTable:
             hashTable[nickname] = password
-            #client.send(str.encode("Signup successful.")) 
+            client.send(str.encode("Signup successful.")) 
             print("Registered:")
             print("{:<8} {:<20}".format("User","Passwd"))
             for i,j in hashTable.items():
@@ -120,9 +122,8 @@ def main():
         nicknames.append(nickname)
         clients.append(client)
         
-        #print(f'Nickname of the client is {nickname}')
-        client.send(f"* Connected to the server!\n".encode( ))
-        broadcast(f"* {nickname} joined the chat".encode( ))
+        broadcast(f"* {nickname} joined the chat".encode(),client)
+        client.send(f"* Connected to the server!\n".encode())
         
         # handling multiple clients simultaneously
         thread = threading.Thread(target=handle,args=(client,))
@@ -137,7 +138,7 @@ def kick_user(name):
         client_to_kick.send("* You were kicked from the server!".encode( ))
         client_to_kick.close()
         nicknames.remove(name)
-        broadcast(f"* {name} was kicked from the server!".encode( ))
+        broadcast(f"* {name} was kicked from the server!".encode( ),client)
 
 
 ##############
