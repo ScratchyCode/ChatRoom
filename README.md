@@ -43,22 +43,22 @@ HiddenServicePort 8080 127.0.0.1:8080
 
 2. Restart TOR:
 ```shell
-systemctl restart tor
+$ systemctl restart tor
 ```
 
 3. Find onion address:
 ```shell
-cat /var/lib/tor/ChatRoom/hostname
+$ cat /var/lib/tor/ChatRoom/hostname
 ```
 
 4. Start server.py and compile the bind entry with localhost:
 ```shell
-$ Bind address (clear for all interface): 127.0.0.1
+ Bind address (clear for all interface): 127.0.0.1
 ```
 
 5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup, but first type:
 ```shell
-torsocks python3 client.py
+$ torsocks python3 client.py
 ```
 
 ## v1.2 Updates
