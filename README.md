@@ -25,14 +25,14 @@ In the diagram below, given the sequence of socket API calls and data flow for T
 
 1. We will have to start our server first.
 ``` shell
-python server.py
+python3 server.py
 ```
 2. Run the client file, to start the conversation. 
 ``` shell
-python client.py
+python3 client.py
 ```
 <br>
-3. enter a nickname, password and start your chatting.
+3. enter a nickname, password and server address for start your chatting.
 
 ## Creating chat over deepweb
 1. Create hidden service editing '/etc/tor/torrc' (under Linux) with:
@@ -55,6 +55,8 @@ $ cat /var/lib/tor/ChatRoom/hostname
 ```shell
  Bind address (clear for all interface): 127.0.0.1
 ```
+With this feature we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
+
 
 5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup, but first type:
 ```shell
