@@ -2,7 +2,7 @@
 import threading
 import socket
 
-host = ''
+host = input("Bind address (clear for all interface): ")
 port = int(input("Listening port: "))
 
 # list to contain the clients getting connected and nicknames
