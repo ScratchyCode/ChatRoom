@@ -51,12 +51,12 @@ systemctl restart tor
 cat /var/lib/tor/ChatRoom/hostname
 ```
 
-4. Start server and bind with localhost:
+4. Start server.py and compile the bind entry with localhost:
 ```shell
-Bind address (clear for all interface): 127.0.0.1
+$ Bind address (clear for all interface): 127.0.0.1
 ```
 
-5. Then start client and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup.
+5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup.
 
 ## v1.2 Updates
 - The version 1.2 supports the Admin Controls. The admin has certain controls over the chat room.
