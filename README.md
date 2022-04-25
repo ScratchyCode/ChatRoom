@@ -56,8 +56,7 @@ $ systemctl restart tor
 $ cat /var/lib/tor/ChatRoom/hostname
 ```
 
-5. Start server.py entering the port;
-Binding host = '127.0.0.1' we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
+5. Start server.py entering the port; binding host = '127.0.0.1' we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
 
 6. Then start client.py typing:
 ```shell
