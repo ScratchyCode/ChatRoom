@@ -19,7 +19,7 @@ client.connect((host,port))
 
 stop_thread = False
 
-def recieve():
+def rx():
     while True:
         global stop_thread
         if stop_thread:
@@ -46,7 +46,7 @@ def recieve():
             client.close()
             break
         
-def write():
+def tx():
     while True:
         if stop_thread:
             break
@@ -65,7 +65,7 @@ def write():
         else:
             client.send(message.encode())
 
-recieve_thread = threading.Thread(target=recieve)
+recieve_thread = threading.Thread(target=rx)
 recieve_thread.start()
-write_thread = threading.Thread(target=write)
+write_thread = threading.Thread(target=tx)
 write_thread.start()
