@@ -62,15 +62,6 @@ With this feature we will receive only tor connections, being able to leave the 
 $ torsocks python3 client.py
 ```
 
-## v1.2 Updates
-- The version 1.2 supports the Admin Controls. The admin has certain controls over the chat room.
-- The enhanced features include
-  - <b>Kick Feature</b> : Admin can kick anyone from the Chat Room.
-  - <b>Ban Feature</b> : Admin can ban certain members from re-joining the Chat Room. These names are added in a List.
-- Minor Bug Fixes.
-
-<hr>
-
 ## Using TOR screenshot 📹
 <br>
 First start server over hidden service:
