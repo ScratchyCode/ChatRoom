@@ -34,7 +34,7 @@ python client.py
 <br>
 3. enter a nickname, password and start your chatting.
 
-## Usage in deepweb
+## Creating chat over deepweb
 1. Create hidden service editing '/etc/tor/torrc' (under Linux) with:
 ```shell
 HiddenServiceDir /var/lib/tor/ChatRoom/
@@ -56,7 +56,10 @@ cat /var/lib/tor/ChatRoom/hostname
 $ Bind address (clear for all interface): 127.0.0.1
 ```
 
-5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup.
+5. Then start client.py and compile entries 'Host' and 'Port' with onion address and port used before in TOR setup, but first type:
+```shell
+torsocks python3 client.py
+```
 
 ## v1.2 Updates
 - The version 1.2 supports the Admin Controls. The admin has certain controls over the chat room.
