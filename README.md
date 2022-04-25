@@ -65,13 +65,13 @@ and compile entries 'Host' and 'Port' with onion address and port (8080) used be
 
 ## Using TOR screenshot 📹
 <br>
-First start server over hidden service:
+Server-side:
 <br><br>
 
-![](https://github.com/ScratchyCode/ChatRoom/blob/main/screen/server.png)
+![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/server.png)
 
-after try to connect clients with torsocks wrapper:
+Client-side:
 
-![](https://github.com/ScratchyCode/ChatRoom/blob/main/screen/client.png)
+![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/client.png)
 
 <hr>
