@@ -7,7 +7,7 @@
 
 This is an advanced Python-based chat room with secure login. The project is entirely based on the socket programming done using Python. A server is set to the listening mode, with a specific IP address and port number (asked at runtime) and clients are made to connect to the server, after which they are prompted to enter a nickname and password. The messages are then broadcasted to all the connected clients.
 
-It is also possible to ensure traffic by wrapping tcp packet into TOR encrypted connection using torsocks.
+It is also possible to ensure traffic by wrapping TCP packet into TOR encrypted connection using torsocks.
 
 ### Introduction
 
