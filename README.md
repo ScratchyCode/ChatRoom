@@ -35,29 +35,31 @@ python3 client.py
 3. enter a nickname, password and server address for start your chatting.
 
 ## Creating chat over deep web
-1. Create hidden service editing '/etc/tor/torrc' (under Linux) with:
+1. Install TOR typing (under Linux):
+```shell
+sudo apt install tor
+```
+
+2. Create hidden service editing '/etc/tor/torrc' with:
 ```shell
 HiddenServiceDir /var/lib/tor/ChatRoom/
 HiddenServicePort 8080 127.0.0.1:8080
 ```
 
-2. Restart TOR:
+3. Restart TOR:
 ```shell
 $ systemctl restart tor
 ```
 
-3. Find onion address:
+4. Find onion address:
 ```shell
 $ cat /var/lib/tor/ChatRoom/hostname
 ```
 
-4. Start server.py and compile the bind entry with localhost:
-```shell
- Bind address (clear for all interface): 127.0.0.1
-```
-With this feature we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
+5. Start server.py entering the port;
+Binding host = '127.0.0.1' we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
 
-5. Then start client.py typing:
+6. Then start client.py typing:
 ```shell
 $ torsocks python3 client.py
 ```
