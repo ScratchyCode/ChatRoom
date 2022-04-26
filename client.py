@@ -3,6 +3,10 @@ import socket
 import threading
 import hashlib
 
+# dim buffer for messages
+BUFF = 2048
+
+# for nickname
 class coloritesto:
     PURPLE = "\033[95m"
     CYAN = "\033[96m"
@@ -38,7 +42,7 @@ def rx():
         if stop_thread:
             break    
         try:
-            message = client.recv(1024).decode()
+            message = client.recv(BUFF).decode()
             if(not message):
                 print("* Server connection lost.")
                 stop_thread = True
@@ -47,10 +51,10 @@ def rx():
             
             if message == 'NICK':
                 client.send(nickname.encode())
-                next_message = client.recv(1024).decode()
+                next_message = client.recv(BUFF).decode()
                 if next_message == 'PASS':
                     client.send(password.encode())
-                    if(client.recv(1024).decode() == 'REFUSE'):
+                    if(client.recv(BUFF).decode() == 'REFUSE'):
                         print("* Connection refused!")
                         stop_thread = True
                 # clients those are banned can't reconnect
