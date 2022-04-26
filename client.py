@@ -19,6 +19,7 @@ client.connect((host,port))
 
 stop_thread = False
 
+# threaded function for tx and rx
 def rx():
     while True:
         global stop_thread
@@ -26,6 +27,12 @@ def rx():
             break    
         try:
             message = client.recv(1024).decode()
+            if(not message):
+                print("* Server connection lost.")
+                stop_thread = True
+                client.close()
+                break
+            
             if message == 'NICK':
                 client.send(nickname.encode())
                 next_message = client.recv(1024).decode()
@@ -45,13 +52,16 @@ def rx():
             print('* Error occured while connecting')
             client.close()
             break
-        
+
+
 def tx():
     while True:
         if stop_thread:
             break
         # getting messages
+        #print(">> ",end='')
         message = f'{nickname}: {input("")}'
+        
         if message[len(nickname)+2:].startswith('/'):
             if nickname == 'admin':
                 if message[len(nickname)+2:].startswith('/kick'):
@@ -65,6 +75,8 @@ def tx():
         else:
             client.send(message.encode())
 
+
+# start thread
 recieve_thread = threading.Thread(target=rx)
 recieve_thread.start()
 write_thread = threading.Thread(target=tx)
