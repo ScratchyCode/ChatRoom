@@ -6,11 +6,13 @@ import socket
 host = ''
 port = int(input("Listening port: "))
 
+# dim buffer for messages
+BUFF = 2048
+
 # list to contain the clients getting connected and nicknames
 clients = []
 nicknames = []
 hashTable = {}
-
 
 # broadcasting method
 def broadcast(message,myclient):
@@ -27,7 +29,7 @@ def handle(client):
     
     while True:
         try:
-            msg = message = client.recv(1024)
+            msg = message = client.recv(BUFF)
             
             if(not msg):
                 broadcast(f"* '{nickname}' quit.".encode(),client)
@@ -83,7 +85,7 @@ def main():
         
         # ask the clients for nicknames
         client.send("NICK".encode())
-        nickname = client.recv(1024).decode()
+        nickname = client.recv(BUFF).decode()
         
         # check for banned nick
         with open("bans.txt",'r') as f:
@@ -96,7 +98,7 @@ def main():
         
         # ask the passwd
         client.send("PASS".encode())
-        password = client.recv(1024).decode()
+        password = client.recv(BUFF).decode()
         
         # REGISTERATION PHASE
         # if new user, regiter in hashTable dictionary
