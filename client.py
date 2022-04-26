@@ -3,6 +3,18 @@ import socket
 import threading
 import hashlib
 
+class coloritesto:
+    PURPLE = "\033[95m"
+    CYAN = "\033[96m"
+    DARKCYAN = "\033[36m"
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+    END = "\033[0m"
+
 # input username
 nickname = input("Nickname: ")
 
@@ -59,8 +71,10 @@ def tx():
         if stop_thread:
             break
         # getting messages
-        #print(">> ",end='')
-        message = f'{nickname}: {input("")}'
+        #message = f'{nickname}: {input("")}'
+        message = f'{nickname}'
+        message = coloritesto.RED + coloritesto.BOLD + message + coloritesto.END
+        message = message + f': {input("")}'
         
         if message[len(nickname)+2:].startswith('/'):
             if nickname == 'admin':
