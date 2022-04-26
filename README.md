@@ -1,10 +1,4 @@
 # ChatRoom
-![](https://img.shields.io/apm/l/vim-mode?style=plastic)
-![](https://img.shields.io/pypi/pyversions/Django?style=plastic)
-![](https://img.shields.io/github/last-commit/IamLucif3r/Chat-On)
-![](https://img.shields.io/github/commit-activity/w/IamLucif3r/Chat-On?style=plastic)
-
-
 This is an advanced Python-based chat room with secure login. The project is entirely based on the socket programming done using Python. A server is set to the listening mode, with a specific IP address and port number (asked at runtime) and clients are made to connect to the server, after which they are prompted to enter a nickname and password. The messages are then broadcasted to all the connected clients.
 
 The first login will register on the server nickname and password.
@@ -60,8 +54,7 @@ $ cat /var/lib/tor/ChatRoom/hostname
 
 5. Start server.py entering the port;
 
-
-binding host = '127.0.0.1' editing server.py code, we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
+binding host = '127.0.0.1' by editing server code, we will receive only tor connections, being able to leave the ports of the firewall and the router closes.
 
 6. Then start client.py typing:
 ```shell
