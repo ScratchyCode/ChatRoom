@@ -90,11 +90,16 @@ def main():
                 print(f"* Connected from {str(address)}")
                 
                 # ask the clients for nicknames
-                client.send("NICK".encode())
-                nickname = client.recv(BUFF).decode()
-                
-                # check connection for real user
-                if(not nickname):
+                try:
+                    client.send("NICK".encode())
+                    nickname = client.recv(BUFF).decode()
+                    
+                    # check connection for real user
+                    if(not nickname):
+                        client.close
+                        print(f"Disconnection client %s: handshake problem." %address[0])
+                        continue
+                except:
                     client.close
                     print(f"Disconnection client %s: handshake problem." %address[0])
                     continue
@@ -109,11 +114,16 @@ def main():
                     continue
                 
                 # ask the passwd
-                client.send("PASS".encode())
-                password = client.recv(BUFF).decode()
-                
-                # check connection for real user
-                if(not password):
+                try:
+                    client.send("PASS".encode())
+                    password = client.recv(BUFF).decode()
+                    
+                    # check connection for real user
+                    if(not password):
+                        client.close
+                        print(f"Disconnection client %s: handshake problem." %address[0])
+                        continue
+                except:
                     client.close
                     print(f"Disconnection client %s: handshake problem." %address[0])
                     continue
