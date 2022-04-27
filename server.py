@@ -129,7 +129,7 @@ def main():
                     continue
                 
                 # REGISTERATION PHASE
-                # if new user, regiter in hashTable dictionary
+                # if new user, register in hashTable dictionary
                 if(nickname not in hashTable):
                     hashTable[nickname] = password
                     client.send(str.encode(f"Signup successful.")) 
