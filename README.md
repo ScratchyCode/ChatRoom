@@ -1,9 +1,9 @@
 # ChatRoom
-This is an advanced Python-based chat room with secure login. The project is entirely based on the socket programming done using Python. A server is set to the listening mode, with a specific IP address and port number (asked at runtime) and clients are made to connect to the server, after which they are prompted to enter a nickname and password. The messages are then broadcasted to all the connected clients.
+This is an advanced Python-based chat room with secure login. The project is entirely based on the socket programming done using Python. The server is set to the listening mode, with a specific port number (asked at runtime). Client are made to connect to the server, prompted to enter a nickname and password. The messages are then broadcasted to all the connected clients.
 
-The first login will register on the server nickname and password.
+First login will register nickname and password on the server.
 
-It is also possible to ensure traffic by wrapping TCP packet into TOR encrypted connection creating hidden service and using torsocks.
+It is also possible to ensure traffic by wrapping TCP packet into TOR full-encrypted connection, creating hidden service and using torsocks.
 
 ### Introduction
 
@@ -30,7 +30,7 @@ python3 client.py
 <br>
 3. enter a nickname, password and server address for start your chatting.
 
-## Creating chat over deep web
+## Chatting over deep web
 1. Install TOR typing (under Linux):
 ```shell
 sudo apt install tor
