@@ -1,6 +1,8 @@
 # Coded by Pietro Squilla
 import threading
 import socket
+import signal
+import sys
 
 #host = input("Bind address (clear for all interface): ")
 host = ''
@@ -13,6 +15,13 @@ BUFF = 2048
 clients = []
 nicknames = []
 hashTable = {}
+
+
+# handle signal
+def signal_handler(signal,frame):
+    print("\nExit...")
+    sys.exit(0)
+
 
 # broadcasting method
 def broadcast(message,myclient):
@@ -84,90 +93,88 @@ def main():
         server.listen(5)
         
         while True:
+            client,address = server.accept()
+            
+            print(f"* Connected from {str(address)}")
+            
+            # ask nicknames
             try:
-                client,address = server.accept()
+                client.send("NICK".encode())
+                nickname = client.recv(BUFF).decode()
                 
-                print(f"* Connected from {str(address)}")
-                
-                # ask nicknames
-                try:
-                    client.send("NICK".encode())
-                    nickname = client.recv(BUFF).decode()
-                    
-                    # check connection for real user
-                    if(not nickname):
-                        client.close
-                        print(f"Disconnection client %s: handshake problem." %address[0])
-                        continue
-                except:
+                # check connection for real user
+                if(not nickname):
                     client.close
                     print(f"Disconnection client %s: handshake problem." %address[0])
                     continue
+            except:
+                client.close
+                print(f"Disconnection client %s: handshake problem." %address[0])
+                continue
+            
+            # check for banned nick
+            with open("bans.txt",'r') as f:
+                bans = f.readlines()
+            
+            if(nickname+'\n' in bans):
+                client.send("BAN".encode( ))
+                client.close()
+                continue
+            
+            # ask passwd
+            try:
+                client.send("PASS".encode())
+                password = client.recv(BUFF).decode()
                 
-                # check for banned nick
-                with open("bans.txt",'r') as f:
-                    bans = f.readlines()
-                
-                if(nickname+'\n' in bans):
-                    client.send("BAN".encode( ))
+                # check connection for real user
+                if(not password):
+                    client.close
+                    print(f"Disconnection client %s: handshake problem." %address[0])
+                    continue
+            except:
+                client.close
+                print(f"Disconnection client %s: handshake problem." %address[0])
+                continue
+            
+            # REGISTERATION PHASE
+            # if new user, register in hashTable dictionary
+            if(nickname not in hashTable):
+                hashTable[nickname] = password
+                client.send(str.encode(f"Signup successful.")) 
+                print("Registered:")
+                print("{:<8} {:<20}".format("User","Passwd"))
+                for i,j in hashTable.items():
+                    label,num = i,j
+                    print("{:<8} {:<20}".format(label,num))
+                print("-------------------------------------------")
+            else:
+                # if already existing user, check if the entered password is correct
+                if(hashTable[nickname] == password):
+                    client.send(str.encode("Connected...")) 
+                    print("Connected user: ",nickname)
+                else:
+                    client.send("REFUSE".encode( ))
+                    print("* Connection refused for: ",nickname)
                     client.close()
                     continue
-                
-                # ask passwd
-                try:
-                    client.send("PASS".encode())
-                    password = client.recv(BUFF).decode()
-                    
-                    # check connection for real user
-                    if(not password):
-                        client.close
-                        print(f"Disconnection client %s: handshake problem." %address[0])
-                        continue
-                except:
-                    client.close
-                    print(f"Disconnection client %s: handshake problem." %address[0])
-                    continue
-                
-                # REGISTERATION PHASE
-                # if new user, register in hashTable dictionary
-                if(nickname not in hashTable):
-                    hashTable[nickname] = password
-                    client.send(str.encode(f"Signup successful.")) 
-                    print("Registered:")
-                    print("{:<8} {:<20}".format("User","Passwd"))
-                    for i,j in hashTable.items():
-                        label,num = i,j
-                        print("{:<8} {:<20}".format(label,num))
-                    print("-------------------------------------------")
-                else:
-                    # if already existing user, check if the entered password is correct
-                    if(hashTable[nickname] == password):
-                        client.send(str.encode("Connected...")) 
-                        print("Connected user: ",nickname)
-                    else:
-                        client.send("REFUSE".encode( ))
-                        print("* Connection refused for: ",nickname)
-                        client.close()
-                        continue
-                
-                nicknames.append(nickname)
-                clients.append(client)
-                
-                broadcast(f"* {nickname} joined the chat".encode(),client)
-                client.send(f"* Connected to the server!\n".encode())
-                
-                # handling multiple clients simultaneously
-                thread = threading.Thread(target=handle,args=(client,))
-                thread.start()
-            except(KeyboardInterrupt,EOFError):
-                print("\nExit...")
-                break
+            
+            nicknames.append(nickname)
+            clients.append(client)
+            
+            broadcast(f"* {nickname} joined the chat".encode(),client)
+            client.send(f"* Connected to the server!\n".encode())
+            
+            # handling multiple clients simultaneously
+            thread = threading.Thread(target=handle,args=(client,))
+            thread.daemon = True
+            thread.start()
+            thread.join()
     except:
-        print("Connection problem detected.")
+        print("Connection failure.")
 
 
 def kick_user(name):
-    if name in nicknames:
+    if(name in nicknames):
         name_index = nicknames.index(name)
         client_to_kick = clients[name_index]
         clients.remove(client_to_kick)
@@ -181,7 +188,8 @@ def kick_user(name):
 #    main    #
 ##############
 if(__name__ == "__main__"):
+    # handle interrupt signal
+    signal.signal(signal.SIGINT,signal_handler)
     
     print("Starting server...")
     main()
-    
