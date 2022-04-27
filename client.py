@@ -89,7 +89,9 @@ def tx():
         else:
             client.send(message.encode())
 
-
+##############
+#    main    #
+##############
 if(__name__ == "__main__"):
     # handle interrupt signal
     signal.signal(signal.SIGINT,signal_handler)
