@@ -2,6 +2,7 @@
 import socket
 import threading
 import hashlib
+import sys
 
 # dim buffer for messages
 BUFF = 2048
@@ -19,83 +20,102 @@ class coloritesto:
     UNDERLINE = "\033[4m"
     END = "\033[0m"
 
-# input username
-nickname = input("Nickname: ")
+try:
+    # input username
+    nickname = input("Nickname: ")
+    
+    # input password
+    password = input("Password: ")
+    password = hashlib.sha256(str.encode(password)).hexdigest()
+    
+    # connect to host
+    host = input("Host: ")
+    port = int(input("Port: "))
+except(KeyboardInterrupt,EOFError):
+    print("\nExit...")
+    sys.exit(0)
 
-# input password
-password = input("Password: ")
-password = hashlib.sha256(str.encode(password)).hexdigest()
-
-# connect to host
-host = input("Host: ")
-port = int(input("Port: "))
-
-client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-client.connect((host,port))
+try:
+    client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    client.connect((host,port))
+except:
+    print("Connection problem.")
+    print("Exit...")
 
 stop_thread = False
 
 # threaded function for tx and rx
 def rx():
     while True:
-        global stop_thread
-        if stop_thread:
-            break    
         try:
-            message = client.recv(BUFF).decode()
-            if(not message):
-                print("* Server connection lost.")
-                stop_thread = True
+            global stop_thread
+            if(stop_thread):
+                break    
+            try:
+                message = client.recv(BUFF).decode()
+                if(not message):
+                    print("* Server connection lost.")
+                    stop_thread = True
+                    client.close()
+                    break
+                
+                if(message == "NICK"):
+                    client.send(nickname.encode())
+                    next_message = client.recv(BUFF).decode()
+                    if(next_message == "PASS"):
+                        client.send(password.encode())
+                        if(client.recv(BUFF).decode() == "REFUSE"):
+                            print("* Connection refused!")
+                            stop_thread = True
+                    # clients those are banned can't reconnect
+                    elif(next_message == "BAN"):
+                        print("* Connection refused due to ban!")
+                        client.close()
+                        stop_thread = True
+                else:
+                    print(message)
+            except:
+                print("* Error occured while connecting")
                 client.close()
                 break
-            
-            if message == 'NICK':
-                client.send(nickname.encode())
-                next_message = client.recv(BUFF).decode()
-                if next_message == 'PASS':
-                    client.send(password.encode())
-                    if(client.recv(BUFF).decode() == 'REFUSE'):
-                        print("* Connection refused!")
-                        stop_thread = True
-                # clients those are banned can't reconnect
-                elif next_message == 'BAN':
-                    print('* Connection refused due to ban!')
-                    client.close()
-                    stop_thread = True
-            else:
-                print(message)
-        except:
-            print('* Error occured while connecting')
-            client.close()
+        except(KeyboardInterrupt,EOFError):
+            stop_thread = True
+            print("\nExit...")
             break
 
 
 def tx():
     while True:
-        if stop_thread:
-            break
-        # getting messages
-        #message = f'{nickname}: {input("")}'
-        message = f'{nickname}'
-        message = coloritesto.RED + coloritesto.BOLD + message + coloritesto.END
-        message = message + f': {input("")}'
-        
-        if message[len(nickname)+2:].startswith('/'):
-            if nickname == 'admin':
-                if message[len(nickname)+2:].startswith('/kick'):
-                    # 2 for : and whitespace and 6 for /KICK_
-                    client.send(f'KICK {message[len(nickname)+2+6:]}'.encode())
-                elif message[len(nickname)+2:].startswith('/ban'):
-                    # 2 for : and whitespace and 5 for /BAN
-                    client.send(f'BAN {message[len(nickname)+2+5:]}'.encode())
+        try:
+            global stop_thread
+            if(stop_thread):
+                break
+            # getting messages
+            #message = f'{nickname}: {input("")}'
+            message = f"{nickname}"
+            message = coloritesto.RED + coloritesto.BOLD + message + coloritesto.END
+            message = message + f': {input("")}'
+            
+            if(message[len(nickname)+2:].startswith('/')):
+                if(nickname == "admin"):
+                    if(message[len(nickname)+2:].startswith("/kick")):
+                        # 2 for : and whitespace and 6 for /KICK_
+                        client.send(f"KICK {message[len(nickname)+2+6:]}".encode())
+                    elif(message[len(nickname)+2:].startswith("/ban")):
+                        # 2 for : and whitespace and 5 for /BAN
+                        client.send(f"BAN {message[len(nickname)+2+5:]}".encode())
+                else:
+                    print("* Commands can be executed by admins only!")
             else:
-                print("* Commands can be executed by admins only!")
-        else:
-            client.send(message.encode())
+                client.send(message.encode())
+        except(KeyboardInterrupt,EOFError):
+            print("\nExit...")
+            stop_thread = True
+            break
 
 
 # start thread
-recieve_thread = threading.Thread(target=rx)
-recieve_thread.start()
+receive_thread = threading.Thread(target=rx)
+receive_thread.start()
 write_thread = threading.Thread(target=tx)
 write_thread.start()
