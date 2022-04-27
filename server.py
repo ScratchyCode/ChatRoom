@@ -24,7 +24,7 @@ def broadcast(message,myclient):
             client.send(message)
 
 
-# recieving messages from client then broadcasting
+# receiving messages from client then broadcasting
 def handle(client):
     while True:
         try:
@@ -57,7 +57,7 @@ def handle(client):
                 else:
                     client.send("* Command refused!".encode( ))
             else:
-                broadcast(message,client) # as soon as message recieved, broadcast it.
+                broadcast(message,client) # as soon as message received, broadcast it.
         except:
             if(client in clients):
                 index = clients.index(client)
@@ -89,7 +89,7 @@ def main():
                 
                 print(f"* Connected from {str(address)}")
                 
-                # ask the clients for nicknames
+                # ask nicknames
                 try:
                     client.send("NICK".encode())
                     nickname = client.recv(BUFF).decode()
@@ -113,7 +113,7 @@ def main():
                     client.close()
                     continue
                 
-                # ask the passwd
+                # ask passwd
                 try:
                     client.send("PASS".encode())
                     password = client.recv(BUFF).decode()
