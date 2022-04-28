@@ -95,7 +95,7 @@ def main():
         while True:
             client,address = server.accept()
             
-            print(f"* Connected from {str(address)}")
+            print(f"* Connection from {str(address)}")
             
             # ask nicknames
             try:
@@ -115,7 +115,6 @@ def main():
             # check for banned nick
             with open("bans.txt",'r') as f:
                 bans = f.readlines()
-            
             if(nickname+'\n' in bans):
                 client.send("BAN".encode( ))
                 client.close()
@@ -140,7 +139,8 @@ def main():
             # if new user, register in hashTable dictionary
             if(nickname not in hashTable):
                 hashTable[nickname] = password
-                client.send(str.encode(f"Signup successful.")) 
+                #client.send(str.encode(f"Signup successful."))
+                client.send("Signup successful.".encode()) 
                 print("Registered:")
                 print("{:<8} {:<20}".format("User","Passwd"))
                 for i,j in hashTable.items():
@@ -150,7 +150,7 @@ def main():
             else:
                 # if already existing user, check if the entered password is correct
                 if(hashTable[nickname] == password):
-                    client.send(str.encode("Connected...")) 
+                    #client.send(str.encode("Connected...")) 
                     print("Connected user: ",nickname)
                 else:
                     client.send("REFUSE".encode( ))
