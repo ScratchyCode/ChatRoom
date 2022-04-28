@@ -67,10 +67,10 @@ and compile entries 'Host' and 'Port' with onion address and port (8080) used be
 Server-side:
 <br><br>
 
-![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/server1.png)
+![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/server.png)
 
 Client-side:
 
-![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/client1.png)
+![](https://github.com/ScratchyCode/ChatRoom/blob/main/screenshot/client.png)
 
 <hr>
