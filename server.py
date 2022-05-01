@@ -168,7 +168,9 @@ def main():
             thread = threading.Thread(target=handle,args=(client,))
             thread.daemon = True
             thread.start()
-            thread.join()
+            
+            # join
+            #thread.join()
     except:
         print("Connection failure.")
 
