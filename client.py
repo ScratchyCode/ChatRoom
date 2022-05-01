@@ -122,10 +122,12 @@ if(__name__ == "__main__"):
     
     # let start before joining
     receive_thread.start()
-    receive_thread.join()
     
     # same for transmission
     write_thread = threading.Thread(target=tx)
     write_thread.daemon = True
     write_thread.start()
+    
+    # join
     write_thread.join()
+    receive_thread.join()
