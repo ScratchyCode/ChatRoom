@@ -173,7 +173,7 @@ def main():
             # join
             #thread.join()
     except:
-        print("Connection failure.")
+        print("* Connection failure.")
 
 
 def kick_user(name):
