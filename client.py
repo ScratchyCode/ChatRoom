@@ -39,7 +39,7 @@ def rx():
         try:
             message = client.recv(BUFF).decode()
             if(not message):
-                print("* Server connection lost.")
+                print("*** Server connection lost.")
                 stop_thread = True
                 client.close()
                 break
@@ -50,17 +50,17 @@ def rx():
                 if(next_message == "PASS"):
                     client.send(password.encode())
                     if(client.recv(BUFF).decode() == "REFUSE"):
-                        print("* Connection refused!")
+                        print("*** Connection refused!")
                         stop_thread = True
                 # clients those are banned can't reconnect
                 elif(next_message == "BAN"):
-                    print("* Connection refused due to ban!")
+                    print("*** Connection refused due to ban!")
                     client.close()
                     stop_thread = True
             else:
                 print(message)
         except:
-            print("* Error occured while connecting")
+            print("*** Error occured while connecting")
             client.close()
             break
 
@@ -85,7 +85,7 @@ def tx():
                     # 2 for : and whitespace and 5 for /BAN
                     client.send(f"BAN {message[len(nickname)+2+5:]}".encode())
             else:
-                print("* Commands can be executed by admins only!")
+                print("*** Commands can be executed by admins only!")
         else:
             client.send(message.encode())
 
@@ -111,8 +111,8 @@ if(__name__ == "__main__"):
         client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         client.connect((host,port))
     except:
-        print("Connection problem.")
-        print("Exit...")
+        print("*** Connection problem.")
+        print("*** Exit...")
     
     # start thread
     receive_thread = threading.Thread(target=rx)
