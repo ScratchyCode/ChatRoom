@@ -153,6 +153,7 @@ def main():
                 if(hashTable[nickname] == password):
                     #client.send(str.encode("Connected...")) 
                     print("* Connected user: ",nickname)
+                    client.send(f"Signup successful.".encode())
                 else:
                     client.send("REFUSE".encode( ))
                     print("* Connection refused for: ",nickname)
@@ -181,10 +182,10 @@ def kick_user(name):
         name_index = nicknames.index(name)
         client_to_kick = clients[name_index]
         clients.remove(client_to_kick)
-        client_to_kick.send("* You were kicked from the server!".encode( ))
+        client_to_kick.send("* You were kicked from the server!".encode())
         client_to_kick.close()
         nicknames.remove(name)
-        broadcast(f"* {name} was kicked from the server!".encode( ),client)
+        broadcast(f"* {name} was kicked from the server!".encode(),client)
 
 
 ##############
