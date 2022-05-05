@@ -3,6 +3,7 @@ import threading
 import socket
 import signal
 import sys
+import time
 
 #host = input("Bind address (clear for all interface): ")
 host = ''
@@ -163,6 +164,7 @@ def main():
             nicknames.append(nickname)
             clients.append(client)
             
+            time.sleep(1)
             client.send(f"* Connected to the server!\n".encode())
             broadcast(f"* {nickname} joined the chat".encode(),client)
             
