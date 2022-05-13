@@ -87,7 +87,18 @@ def tx():
             else:
                 print("*** Commands can be executed by admins only!")
         else:
-            client.send(message.encode())
+            try:
+                checkconn = client.send(message.encode())
+                if(not checkconn):
+                    print("*** Client connection lost.")
+                    client.close()
+                    stop_thread = True
+                    break
+            except:
+                print("*** Client connection problem.")
+                client.close()
+                stop_thread = True
+                break
 
 ##############
 #    main    #
